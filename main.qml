@@ -13,13 +13,27 @@ Window {
     property int video_size_height: 200
     property int video_size_width_min: 200
     property int video_size_height_min: 100
+    property variant clickPos: "1,1"
 
+    MouseArea{
+        anchors.fill: parent;
+
+
+        onPressed: {
+            clickPos  = Qt.point(mouse.x,mouse.y)
+        }
+
+        onPositionChanged: {
+            var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
+            root.x += delta.x;
+            root.y += delta.y;
+        }
+    }
     Rectangle{
         id: control_area
         width: root.width
         height: 50
 //        color: "black"
-
 
         //Time: milisecond
         Rectangle {
@@ -134,6 +148,7 @@ Window {
                 onMouseXChanged: {
                     console.log("mouseX changed: " + mouseX)
                     inner_slider.width = mouseX
+//                    //player.setPosition(mouseX)
                 }
             }
             Rectangle{
@@ -169,7 +184,6 @@ Window {
                         id: videoOutput
                         anchors.fill: parent
                     }
-
         }
     }
 
@@ -188,4 +202,7 @@ Window {
         }
 
     }
+
+
+
 }
